@@ -3,11 +3,26 @@ const username = document.getElementById("username");
 const telefone = document.getElementById("telefone");
 const password = document.getElementById("password");
 const passwordConfirmation = document.getElementById("password-confirmation");
+var x =0;
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-
   checkInputs();
+  if(x==0){
+    var dados = new FormData(form); // Obtém os dados do formulário
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "salvar_dados.php", true); // Define o arquivo PHP que irá processar os dados
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Os dados foram salvos com sucesso
+            console.log(xhr.responseText);
+        }
+    };
+    
+    xhr.send(dados); // Envia os dados para o servidor
+  }
 });
 
 function checkInputs() {
@@ -18,28 +33,34 @@ function checkInputs() {
 
   if (usernameValue === "") {
     setErrorFor(username, "O nome de usuário é obrigatório.");
+    x+=1
   } else {
     setSuccessFor(username);
   }
 
   if (telefoneValue === "") {
     setErrorFor(telefone, "O telefone é obrigatório.");
+    x+=1
   } else {
     setSuccessFor(telefone);
   }
 
   if (passwordValue === "") {
     setErrorFor(password, "A senha é obrigatória.");
+    x+=1
   } else if (passwordValue.length < 7) {
     setErrorFor(password, "A senha precisa ter no mínimo 7 caracteres.");
+    x+=1
   } else {
     setSuccessFor(password);
   }
 
   if (passwordConfirmationValue === "") {
     setErrorFor(passwordConfirmation, "A confirmação de senha é obrigatória.");
+    x+=1
   } else if (passwordConfirmationValue !== passwordValue) {
     setErrorFor(passwordConfirmation, "As senhas não conferem.");
+    x+=1
   } else {
     setSuccessFor(passwordConfirmation);
   }
