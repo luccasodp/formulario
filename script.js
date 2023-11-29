@@ -6,6 +6,7 @@ const passwordConfirmation = document.getElementById("password-confirmation");
 var x = 0;
 
 form.addEventListener("submit", (e) => {
+  x=0
   e.preventDefault();
   checkInputs();
   if (x == 0) {
